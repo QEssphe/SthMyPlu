@@ -1,0 +1,24 @@
+# Build output
+CodexQuota.exe
+*.pdb
+*.dll
+
+# Runtime state
+quota-live.json
+orb-window.json
+
+# Logs and temporary files
+*.log
+*.tmp
+*.cache
+
+# OS/editor files
+Thumbs.db
+Desktop.ini
+.DS_Store
+.vscode/
+.idea/
+
+# Legacy local launcher files from early prototypes
+QuotaLiquidOrb.ps1
+QuotaLiquidOrb.vbs
