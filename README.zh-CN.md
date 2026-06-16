@@ -49,7 +49,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\build.ps1
 StartQuotaLiquidOrb.bat
 ```
 
-如果你是从 GitHub 下载源码 zip，里面默认不包含 `CodexQuota.exe`。双击这个 bat 时会在首次启动前自动构建 exe，然后再打开软件。
+仓库中也包含预编译的 `CodexQuota.exe`，方便直接下载测试。如果 exe 不存在，双击这个 bat 时会在首次启动前自动构建 exe，然后再打开软件。
 
 ## 使用方式
 
@@ -62,6 +62,7 @@ StartQuotaLiquidOrb.bat
 ## 文件说明
 
 - `CodexQuotaApp.cs` - WinForms 桌面小组件源码。
+- `CodexQuota.exe` - 预编译 Windows 可执行文件，方便直接测试。
 - `quota-poller.mjs` - 常驻 Node.js 额度轮询脚本。
 - `quota-probe.mjs` - 一次性额度探测脚本，方便调试。
 - `build.ps1` - 构建 `CodexQuota.exe`。
@@ -69,7 +70,6 @@ StartQuotaLiquidOrb.bat
 
 以下运行时文件不会提交到 git：
 
-- `CodexQuota.exe`
 - `quota-live.json`
 - `orb-window.json`
 

@@ -49,7 +49,7 @@ Or double-click:
 StartQuotaLiquidOrb.bat
 ```
 
-When you download the GitHub source zip, `CodexQuota.exe` is not included. The batch file will build it automatically on first launch, then start the app.
+The repository also includes a prebuilt `CodexQuota.exe` for quick testing. If the executable is missing, the batch file will build it automatically on first launch, then start the app.
 
 ## Usage
 
@@ -62,6 +62,7 @@ When you download the GitHub source zip, `CodexQuota.exe` is not included. The b
 ## Files
 
 - `CodexQuotaApp.cs` - WinForms desktop widget source.
+- `CodexQuota.exe` - Prebuilt Windows executable for quick testing.
 - `quota-poller.mjs` - Long-running Node.js poller that reads Codex quota data.
 - `quota-probe.mjs` - One-shot quota probe for debugging.
 - `build.ps1` - Builds `CodexQuota.exe`.
@@ -69,7 +70,6 @@ When you download the GitHub source zip, `CodexQuota.exe` is not included. The b
 
 Runtime files are intentionally ignored by git:
 
-- `CodexQuota.exe`
 - `quota-live.json`
 - `orb-window.json`
 
