@@ -1,6 +1,7 @@
 # Build output
 *.pdb
 *.dll
+dist/CodexQuota/
 
 # Runtime state
 quota-live.json

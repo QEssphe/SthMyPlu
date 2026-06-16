@@ -26,9 +26,9 @@ public class CodexQuotaForm : Form {
     const int TailSize = 24;
     const int EdgeThreshold = 52;
 
-    static readonly string TitleText = "\u989d\u5ea6\u8fdb\u5ea6";
-    static readonly string FiveText = "5 \u5c0f\u65f6\u989d\u5ea6";
-    static readonly string WeekText = "\u6bcf\u5468\u989d\u5ea6";
+    static readonly string TitleText = "\u989d\u5ea6\u5df2\u7528";
+    static readonly string FiveText = "5 \u5c0f\u65f6\u5df2\u7528";
+    static readonly string WeekText = "\u6bcf\u5468\u5df2\u7528";
     static readonly string ResetLabel = "\u91cd\u7f6e";
     static readonly string UsedText = "\u5df2\u7528";
     static readonly string ConnectingText = "\u8fde\u63a5\u4e2d";

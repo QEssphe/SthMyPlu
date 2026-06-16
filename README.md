@@ -1,16 +1,16 @@
 # Codex Quota Liquid Orb
 
-A small Windows floating widget that shows Codex quota usage and reset times in a compact Apple-style progress panel. When dragged to a screen edge, it docks smoothly and leaves a green liquid tail that visualizes the 5-hour quota progress.
+A small Windows floating widget that shows Codex used quota percentages and reset times in a compact Apple-style progress panel. When dragged to a screen edge, it docks smoothly and leaves a green liquid tail that visualizes the 5-hour used quota percentage.
 
 [中文说明](README.zh-CN.md)
 
 ## Features
 
 - Live Codex quota polling through the local Codex `app-server` transport.
-- Shows 5-hour quota usage, weekly quota usage, reset time, and countdown.
+- Shows 5-hour used quota, weekly used quota, reset time, and countdown.
 - Borderless rounded WinForms window with smooth drag and dock animations.
 - Edge docking on the top, bottom, left, and right sides of the active monitor.
-- Docked green liquid tail that displays the 5-hour quota progress.
+- Docked green liquid tail that displays the 5-hour used quota percentage.
 - Right-click menu for details, refresh, and exit.
 - Windows tray icon with show, hide, refresh, and exit actions.
 - Remembers window position and dock state locally.
@@ -56,6 +56,7 @@ The repository also includes a prebuilt `CodexQuota.exe` for quick testing. If t
 - Drag with the left mouse button to move the widget.
 - Drag near a monitor edge and release to dock it.
 - Click the green docked tail to expand the full panel.
+- Percent values are used quota, not remaining quota.
 - Double-click the panel to show detailed quota information.
 - Right-click the panel or tray icon for actions.
 
