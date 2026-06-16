@@ -49,6 +49,8 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\build.ps1
 StartQuotaLiquidOrb.bat
 ```
 
+如果你是从 GitHub 下载源码 zip，里面默认不包含 `CodexQuota.exe`。双击这个 bat 时会在首次启动前自动构建 exe，然后再打开软件。
+
 ## 使用方式
 
 - 按住鼠标左键拖动小组件。

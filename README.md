@@ -49,6 +49,8 @@ Or double-click:
 StartQuotaLiquidOrb.bat
 ```
 
+When you download the GitHub source zip, `CodexQuota.exe` is not included. The batch file will build it automatically on first launch, then start the app.
+
 ## Usage
 
 - Drag with the left mouse button to move the widget.
