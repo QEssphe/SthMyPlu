@@ -11,7 +11,9 @@ A small Windows floating widget that shows Codex used quota percentages and rese
 - Borderless rounded WinForms window with smooth drag and dock animations.
 - Edge docking on the top, bottom, left, and right sides of the active monitor.
 - Docked green liquid tail that displays the 5-hour used quota percentage.
-- Right-click menu for details, refresh, and exit.
+- Green `C` application and tray icon.
+- Closing from the taskbar is ignored so the widget stays visible; use the tray icon's right-click menu to exit.
+- Widget right-click menu for details, refresh, and hide.
 - Windows tray icon with show, hide, refresh, and exit actions.
 - Remembers window position and dock state locally.
 
@@ -58,16 +60,25 @@ The repository also includes a prebuilt `CodexQuota.exe` for quick testing. If t
 - Click the green docked tail to expand the full panel.
 - Percent values are used quota, not remaining quota.
 - Double-click the panel to show detailed quota information.
-- Right-click the panel or tray icon for actions.
+- Right-click the panel for details, refresh, or hide.
+- Taskbar close does not hide or exit the widget. To exit, right-click the tray icon and choose `Exit`.
 
 ## Files
 
 - `CodexQuotaApp.cs` - WinForms desktop widget source.
 - `CodexQuota.exe` - Prebuilt Windows executable for quick testing.
+- `CodexQuota.ico` - Green `C` app and tray icon.
 - `quota-poller.mjs` - Long-running Node.js poller that reads Codex quota data.
 - `quota-probe.mjs` - One-shot quota probe for debugging.
 - `build.ps1` - Builds `CodexQuota.exe`.
 - `StartQuotaLiquidOrb.bat` - Starts the built executable.
+- `InstallDesktopShortcut.ps1` - Creates a desktop shortcut named `Codex 额度`.
+
+Create the desktop shortcut manually if needed:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\InstallDesktopShortcut.ps1
+```
 
 Runtime files are intentionally ignored by git:
 

@@ -18,6 +18,7 @@ public class CodexQuotaForm : Form {
     bool dragging;
     bool docked;
     bool animating;
+    bool allowExit;
     string dockSide = "None";
     Point dragStart;
     Point formStart;
@@ -52,7 +53,7 @@ public class CodexQuotaForm : Form {
         ShowInTaskbar = true;
         TopMost = true;
         BackColor = Color.FromArgb(245, 247, 250);
-        Icon = SystemIcons.Information;
+        Icon = LoadAppIcon();
         DoubleBuffered = true;
 
         LoadWindowState();
@@ -75,6 +76,7 @@ public class CodexQuotaForm : Form {
             }
             repaintTimer.Start();
         };
+        FormClosing += OnFormClosing;
         FormClosed += (s, e) => {
             repaintTimer.Stop();
             SaveWindowState();
@@ -100,24 +102,38 @@ public class CodexQuotaForm : Form {
         var menu = new ContextMenuStrip();
         menu.Items.Add(DetailText, null, (s, e) => ShowDetails());
         menu.Items.Add(RefreshText, null, (s, e) => { StopPoller(); StartPoller(); Invalidate(); });
-        menu.Items.Add(new ToolStripSeparator());
-        menu.Items.Add(ExitText, null, (s, e) => Close());
+        menu.Items.Add(HideText, null, (s, e) => Hide());
         ContextMenuStrip = menu;
     }
 
     void BuildTray() {
         tray = new NotifyIcon();
         tray.Text = "Codex " + TitleText;
-        tray.Icon = SystemIcons.Information;
+        tray.Icon = Icon;
         tray.Visible = true;
         var menu = new ContextMenuStrip();
         menu.Items.Add(ShowText, null, (s, e) => { Show(); if (docked) ExpandFromDock(); Activate(); });
         menu.Items.Add(HideText, null, (s, e) => Hide());
         menu.Items.Add(RefreshText, null, (s, e) => { StopPoller(); StartPoller(); Invalidate(); });
         menu.Items.Add(new ToolStripSeparator());
-        menu.Items.Add(ExitText, null, (s, e) => Close());
+        menu.Items.Add(ExitText, null, (s, e) => { allowExit = true; Close(); });
         tray.ContextMenuStrip = menu;
         tray.DoubleClick += (s, e) => { Show(); if (docked) ExpandFromDock(); Activate(); };
+    }
+
+    Icon LoadAppIcon() {
+        var iconPath = Path.Combine(appDir, "CodexQuota.ico");
+        if (File.Exists(iconPath)) {
+            try { return new Icon(iconPath); } catch {}
+        }
+        return SystemIcons.Application;
+    }
+
+    void OnFormClosing(object sender, FormClosingEventArgs e) {
+        if (allowExit || e.CloseReason == CloseReason.WindowsShutDown) return;
+        e.Cancel = true;
+        if (!Visible) Show();
+        Activate();
     }
 
     void LoadWindowState() {

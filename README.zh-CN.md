@@ -11,7 +11,9 @@
 - 无边框圆角 WinForms 窗口，支持平滑拖动和吸附动画。
 - 支持吸附到显示器上、下、左、右边缘。
 - 吸附后露出绿色液态小尾巴，显示 5 小时已用额度百分比。
-- 右键菜单支持查看详情、刷新和退出。
+- 绿色 `C` 软件图标和托盘图标。
+- 从任务栏右键关闭会被忽略，小组件会继续显示；需要在托盘图标右键菜单中退出。
+- 小组件右键菜单支持查看详情、刷新和隐藏。
 - Windows 托盘图标支持显示、隐藏、刷新和退出。
 - 自动保存窗口位置和吸附状态。
 
@@ -58,16 +60,25 @@ StartQuotaLiquidOrb.bat
 - 点击绿色小尾巴会弹出完整面板。
 - 百分比代表已用额度，不是剩余额度。
 - 双击面板查看额度详情。
-- 右键面板或托盘图标可以刷新、隐藏或退出。
+- 右键面板可以查看详情、刷新或隐藏。
+- 任务栏右键关闭不会隐藏也不会退出。要真正退出，请右键托盘图标并选择 `退出`。
 
 ## 文件说明
 
 - `CodexQuotaApp.cs` - WinForms 桌面小组件源码。
 - `CodexQuota.exe` - 预编译 Windows 可执行文件，方便直接测试。
+- `CodexQuota.ico` - 绿色 `C` 软件图标和托盘图标。
 - `quota-poller.mjs` - 常驻 Node.js 额度轮询脚本。
 - `quota-probe.mjs` - 一次性额度探测脚本，方便调试。
 - `build.ps1` - 构建 `CodexQuota.exe`。
 - `StartQuotaLiquidOrb.bat` - 启动构建后的程序。
+- `InstallDesktopShortcut.ps1` - 创建名为 `Codex 额度` 的桌面快捷方式。
+
+如果需要手动创建桌面快捷方式：
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\InstallDesktopShortcut.ps1
+```
 
 以下运行时文件不会提交到 git：
 
