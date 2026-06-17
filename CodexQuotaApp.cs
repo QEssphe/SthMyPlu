@@ -3,7 +3,9 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
+using System.Management;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
 
 public class CodexQuotaForm : Form {
@@ -12,7 +14,7 @@ public class CodexQuotaForm : Form {
     readonly string windowPath;
     readonly string pollerPath;
     readonly string nodePath;
-    readonly Timer repaintTimer = new Timer();
+    readonly System.Windows.Forms.Timer repaintTimer = new System.Windows.Forms.Timer();
     Process poller;
     NotifyIcon tray;
     bool dragging;
@@ -172,6 +174,7 @@ public class CodexQuotaForm : Form {
     void StartPoller() {
         if (string.IsNullOrEmpty(nodePath) || !File.Exists(pollerPath)) return;
         if (poller != null && !poller.HasExited) return;
+        StopOrphanPollers();
         var psi = new ProcessStartInfo(nodePath, "\"" + pollerPath + "\" \"" + statePath + "\"");
         psi.WorkingDirectory = appDir;
         psi.CreateNoWindow = true;
@@ -196,10 +199,27 @@ public class CodexQuotaForm : Form {
         try { if (poller != null && !poller.HasExited) poller.Kill(); } catch {}
     }
 
+    void StopOrphanPollers() {
+        try {
+            using (var searcher = new ManagementObjectSearcher("SELECT ProcessId, CommandLine FROM Win32_Process WHERE Name = 'node.exe'")) {
+                foreach (ManagementObject process in searcher.Get()) {
+                    var commandLine = (process["CommandLine"] as string) ?? "";
+                    if (commandLine.IndexOf("quota-poller.mjs", StringComparison.OrdinalIgnoreCase) < 0) continue;
+                    if (commandLine.IndexOf(statePath, StringComparison.OrdinalIgnoreCase) < 0) continue;
+
+                    var pid = Convert.ToInt32(process["ProcessId"]);
+                    if (poller != null && !poller.HasExited && poller.Id == pid) continue;
+
+                    try { Process.GetProcessById(pid).Kill(); } catch {}
+                }
+            }
+        } catch {}
+    }
+
     QuotaState GetQuota() {
         try {
             if (!File.Exists(statePath)) return lastGood ?? new QuotaState();
-            var text = File.ReadAllText(statePath);
+            var text = ReadTextShared(statePath);
             if (!Regex.IsMatch(text, "\"ok\"\\s*:\\s*true")) return lastGood ?? new QuotaState();
             var primary = Regex.Match(text, "\"primary\"\\s*:\\s*\\{.*?\"usedPercent\"\\s*:\\s*(\\d+).*?\"resetsAt\"\\s*:\\s*(\\d+)", RegexOptions.Singleline);
             var secondary = Regex.Match(text, "\"secondary\"\\s*:\\s*\\{.*?\"usedPercent\"\\s*:\\s*(\\d+).*?\"resetsAt\"\\s*:\\s*(\\d+)", RegexOptions.Singleline);
@@ -216,6 +236,13 @@ public class CodexQuotaForm : Form {
             return q.Online ? q : (lastGood ?? q);
         } catch {
             return lastGood ?? new QuotaState();
+        }
+    }
+
+    static string ReadTextShared(string path) {
+        using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))
+        using (var reader = new StreamReader(stream)) {
+            return reader.ReadToEnd();
         }
     }
 
@@ -483,7 +510,7 @@ public class CodexQuotaForm : Form {
         var startLeft = Left;
         var startTop = Top;
         var start = Environment.TickCount;
-        var t = new Timer();
+        var t = new System.Windows.Forms.Timer();
         t.Interval = 15;
         t.Tick += (s, e) => {
             var elapsed = Environment.TickCount - start;
@@ -521,10 +548,21 @@ public class CodexQuotaForm : Form {
 }
 
 static class Program {
+    static Mutex appMutex;
+
     [STAThread]
     static void Main() {
+        bool createdNew;
+        appMutex = new Mutex(true, "Local\\CodexQuotaLiquidOrb", out createdNew);
+        if (!createdNew) return;
+
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
-        Application.Run(new CodexQuotaForm());
+        try {
+            Application.Run(new CodexQuotaForm());
+        } finally {
+            try { appMutex.ReleaseMutex(); } catch {}
+            if (appMutex != null) appMutex.Dispose();
+        }
     }
 }

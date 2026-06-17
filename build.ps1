@@ -27,6 +27,7 @@ if ($csc) {
         /out:"$output" `
         /reference:System.Windows.Forms.dll `
         /reference:System.Drawing.dll `
+        /reference:System.Management.dll `
         /win32icon:"$icon" `
         "$source"
 
@@ -36,7 +37,7 @@ if ($csc) {
 } else {
     Add-Type `
         -Path $source `
-        -ReferencedAssemblies System.Windows.Forms,System.Drawing `
+        -ReferencedAssemblies System.Windows.Forms,System.Drawing,System.Management `
         -OutputAssembly $output `
         -OutputType WindowsApplication
 }

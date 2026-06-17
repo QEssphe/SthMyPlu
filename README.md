@@ -16,6 +16,7 @@ A small Windows floating widget that shows Codex used quota percentages and rese
 - Widget right-click menu for details, refresh, and hide.
 - Windows tray icon with show, hide, refresh, and exit actions.
 - Remembers window position and dock state locally.
+- Single-instance guard prevents duplicate pollers from writing conflicting quota state.
 
 ## Requirements
 

@@ -1,6 +1,6 @@
 import { spawn } from "node:child_process";
 import { createInterface } from "node:readline";
-import { existsSync, readdirSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, readdirSync, renameSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -13,10 +13,13 @@ let nextId = 2;
 let lastRequestId = 0;
 
 function writeState(state) {
-  writeFileSync(outPath, JSON.stringify({
+  const payload = JSON.stringify({
     receivedAt: new Date().toISOString(),
     ...state
-  }, null, 2));
+  }, null, 2);
+  const tempPath = `${outPath}.${process.pid}.tmp`;
+  writeFileSync(tempPath, payload);
+  renameSync(tempPath, outPath);
 }
 
 function resolveCodexPath() {
