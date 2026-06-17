@@ -50,7 +50,7 @@ public class CodexQuotaForm : Form {
         StartPosition = FormStartPosition.Manual;
         Size = new Size(270, 148);
         FormBorderStyle = FormBorderStyle.None;
-        ShowInTaskbar = true;
+        ShowInTaskbar = false;
         TopMost = true;
         BackColor = Color.FromArgb(245, 247, 250);
         Icon = LoadAppIcon();

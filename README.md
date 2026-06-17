@@ -12,7 +12,7 @@ A small Windows floating widget that shows Codex used quota percentages and rese
 - Edge docking on the top, bottom, left, and right sides of the active monitor.
 - Docked green liquid tail that displays the 5-hour used quota percentage.
 - Green `C` application and tray icon.
-- Closing from the taskbar is ignored so the widget stays visible; use the tray icon's right-click menu to exit.
+- The widget does not appear in the taskbar; use the tray icon's right-click menu to show, hide, refresh, or exit.
 - Widget right-click menu for details, refresh, and hide.
 - Windows tray icon with show, hide, refresh, and exit actions.
 - Remembers window position and dock state locally.
@@ -61,7 +61,7 @@ The repository also includes a prebuilt `CodexQuota.exe` for quick testing. If t
 - Percent values are used quota, not remaining quota.
 - Double-click the panel to show detailed quota information.
 - Right-click the panel for details, refresh, or hide.
-- Taskbar close does not hide or exit the widget. To exit, right-click the tray icon and choose `Exit`.
+- The widget is managed from the tray instead of the taskbar. To exit, right-click the tray icon and choose `Exit`.
 
 ## Files
 
